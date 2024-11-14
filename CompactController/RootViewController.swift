@@ -9,7 +9,7 @@ import UIKit
 
 class RootViewController: UIViewController {
 
-    private let popoverView = PopoverViewController()
+    private var popoverView: PopoverViewController?
 
     private lazy var button: UIButton = {
         let button = UIButton()
@@ -46,12 +46,12 @@ class RootViewController: UIViewController {
     }
 
     private func setupPopover(_ sender: UIButton) {
-        popoverView.preferredContentSize = .init(width: 300, height: 280)
-        popoverView.modalPresentationStyle = .popover
-        popoverView.delegate = self
+        popoverView = PopoverViewController()
+        popoverView?.preferredContentSize = .init(width: 300, height: 280)
+        popoverView?.modalPresentationStyle = .popover
+        popoverView?.delegate = self
 
-        let popoverPresentationController = popoverView.popoverPresentationController
-
+        let popoverPresentationController = popoverView?.popoverPresentationController
         popoverPresentationController?.permittedArrowDirections = .up
         popoverPresentationController?.sourceView = sender
         popoverPresentationController?.delegate = self
@@ -61,7 +61,8 @@ class RootViewController: UIViewController {
         button.isEnabled = false
         setupPopover(sender)
 
-        self.present(popoverView, animated: true)
+        guard let popover = popoverView else { return }
+        self.present(popover, animated: true)
     }
 }
 
@@ -75,14 +76,14 @@ extension RootViewController: UIPopoverPresentationControllerDelegate, PopoverVi
 
     func smallerSizeOptionChosenOnSegment() {
         UIView.animate(withDuration: 0.8) {
-            self.popoverView.preferredContentSize = .init(width: 300, height: 150)
+            self.popoverView?.preferredContentSize = .init(width: 300, height: 150)
             self.view.layoutIfNeeded()
         }
     }
 
     func biggerSizeOptionChosenOnSegment() {
         UIView.animate(withDuration: 0.8) {
-            self.popoverView.preferredContentSize = .init(width: 300, height: 280)
+            self.popoverView?.preferredContentSize = .init(width: 300, height: 280)
             self.view.layoutIfNeeded()
         }
     }

@@ -97,6 +97,5 @@ class PopoverViewController: UIViewController {
 
     private func closeButtonTapped() {
         delegate?.closeButtonTapped()
-        segmentedControl.selectedSegmentIndex = 0
     }
 }
