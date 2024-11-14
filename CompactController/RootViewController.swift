@@ -58,6 +58,7 @@ class RootViewController: UIViewController {
     }
 
     private func presentPopover(_ sender: UIButton) {
+        button.isEnabled = false
         setupPopover(sender)
 
         self.present(popoverView, animated: true)
@@ -73,20 +74,25 @@ extension RootViewController: UIPopoverPresentationControllerDelegate, PopoverVi
     }
 
     func smallerSizeOptionChosenOnSegment() {
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.8) {
             self.popoverView.preferredContentSize = .init(width: 300, height: 150)
             self.view.layoutIfNeeded()
         }
     }
 
     func biggerSizeOptionChosenOnSegment() {
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.8) {
             self.popoverView.preferredContentSize = .init(width: 300, height: 280)
             self.view.layoutIfNeeded()
         }
     }
 
     func closeButtonTapped() {
-        popoverView.dismiss(animated: true)
+        self.dismiss(animated: true)
+        button.isEnabled = true
+    }
+
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        false
     }
 }
